@@ -11,6 +11,6 @@
   },
   "content_scripts": [{
     "js": ["scripts/modify.js"],
-    "matches": ["https://your-cluster-url/*"]
+    "matches": ["<all_urls>"]
   }]
 }
