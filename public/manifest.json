@@ -1,6 +1,6 @@
 {
-    "name": "Fix OCP4 project display name",
-    "description": "Fixes OCP4 project selector by displaying full project name",
+    "name": "OpenShift Project Alias",
+    "description": "This extension allows you to create aliases for OpenShift projects.",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
@@ -8,6 +8,10 @@
     ],
     "action": {
         "default_popup": "index.html"
+    },
+    "icons": {
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
     },
     "content_scripts": [
         {

@@ -52,6 +52,11 @@ function App() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        
+        if (projects.find(p => p.id === formData.projectId)) {
+            setAlert({ message: 'Project ID already exists', type: 'error' });
+            return;
+        }
 
         if (editingProject) {
             const updatedProjects = projects.map(p =>
@@ -100,7 +105,7 @@ function App() {
                 <Fade in={Boolean(alert)} timeout={300}>
                     <Alert
                         severity={alert.type}
-                        sx={{ mb: 2 }}
+                        sx={{ mt: 2 }}
                         onClose={() => setAlert(null)}
                     >
                         {alert.message}
