@@ -1,6 +1,5 @@
 let projects = {};
 
-// Load initial projects from storage
 chrome.storage.sync.get(['projects'], (result) => {
     projects = {};
     (result.projects || []).forEach(p => {
@@ -8,7 +7,6 @@ chrome.storage.sync.get(['projects'], (result) => {
     });
 });
 
-// Listen for changes in storage
 chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace === 'sync' && changes.projects) {
         projects = {};
@@ -30,8 +28,8 @@ const updateProject = (projects) => {
         'button.co-namespace-dropdown__menu-toggle > span.pf-c-menu-toggle__text'
     ];
 
-    for (let i = 0; i < dropDownMenuSelectors.length; i++) {
-        let dropDownMenu = document.querySelectorAll(dropDownMenuSelectors[i]);
+    dropDownMenuSelectors.forEach((selector) => {
+        let dropDownMenu = document.querySelectorAll(selector);
 
         if (dropDownMenu.length > 0) {
             let text = dropDownMenu[0].innerHTML;
@@ -41,15 +39,15 @@ const updateProject = (projects) => {
                 dropDownMenu[0].innerHTML = text.replace(projectId, projectId + ' (' + projects[projectId] + ')')
             }
         }
-    }
+    });
 
     const dropDownMenuItemSelectors = [
         'ul.pf-v5-c-menu__list > li.pf-v5-c-menu__list-item > button.pf-v5-c-menu__item > span > span',
         'ul.pf-c-menu__list > li.pf-c-menu__list-item > button.pf-c-menu__item > span > span'
     ];
 
-    for (let i = 0; i < dropDownMenuItemSelectors.length; i++) {
-        let dropDownMenuItems = document.querySelectorAll(dropDownMenuItemSelectors[i]);
+    dropDownMenuItemSelectors.forEach((selector) => {
+        let dropDownMenuItems = document.querySelectorAll(selector);
 
         if (dropDownMenuItems.length > 0) {
             dropDownMenuItems.forEach(item => {
@@ -59,5 +57,5 @@ const updateProject = (projects) => {
                 }
             });
         }
-    }
+    });
 }

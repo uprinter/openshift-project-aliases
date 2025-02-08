@@ -52,27 +52,29 @@ function App() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (projects.find(p => p.id === formData.projectId)) {
-            setAlert({ message: 'Project ID already exists', type: 'error' });
-            return;
-        }
 
         if (editingProject) {
             const updatedProjects = projects.map(p =>
                 p.id === editingProject.id
-                    ? { id: formData.projectId, name: formData.projectName }
-                    : p
+                ? { id: formData.projectId, name: formData.projectName }
+                : p
             );
+            
             setProjects(updatedProjects);
             saveToStorage(updatedProjects);
             setEditingProject(null);
             setAlert({ message: 'Project updated successfully', type: 'success' });
         } else {
+            if (projects.find(p => p.id === formData.projectId)) {
+                setAlert({ message: 'Project ID already exists', type: 'error' });
+                return;
+            }
+
             const updatedProjects = [...projects, {
                 id: formData.projectId,
                 name: formData.projectName
             }];
+            
             setProjects(updatedProjects);
             saveToStorage(updatedProjects);
             setAlert({ message: 'Project added successfully', type: 'success' });
@@ -125,6 +127,7 @@ function App() {
                     id="projectId"
                     name="projectId"
                     label="Project ID"
+                    inputProps={{ maxLength: 20 }}
                     value={formData.projectId}
                     onChange={(e) => setFormData(prev => ({ ...prev, projectId: e.target.value }))}
                     required
@@ -136,6 +139,11 @@ function App() {
                     id="projectName"
                     name="projectName"
                     label="Project Name"
+                    inputProps={{ 
+                        maxLength: 20, 
+                        pattern: '[a-zA-Z0-9\\- ]+',
+                        title: 'Only letters, numbers, spaces and hyphens are allowed' 
+                    }}
                     value={formData.projectName}
                     onChange={(e) => setFormData(prev => ({ ...prev, projectName: e.target.value }))}
                     required
