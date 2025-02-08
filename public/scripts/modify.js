@@ -10,7 +10,6 @@ chrome.storage.sync.get(['projects'], (result) => {
 
 // Listen for changes in storage
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    console.error('Storage changed', changes, namespace);
     if (namespace === 'sync' && changes.projects) {
         projects = {};
         changes.projects.newValue.forEach(p => {
@@ -26,20 +25,32 @@ setInterval(() => {
 }, 1000)
 
 const updateProject = (projects) => {
-    let dropDownMenu = document.querySelectorAll('button.co-namespace-dropdown__menu-toggle > span.pf-v5-c-menu-toggle__text');
+    const dropDownMenuSelectors = [
+        'button.co-namespace-dropdown__menu-toggle > span.pf-v5-c-menu-toggle__text',
+        'button.co-namespace-dropdown__menu-toggle > span.pf-c-menu-toggle__text'
+    ];
 
-    if (dropDownMenu.length > 0) {
-        let text = dropDownMenu[0].innerHTML;
-        let projectId = text.replace('Project: ', '')
+    for (let i = 0; i < dropDownMenuSelectors.length; i++) {
+        let dropDownMenu = document.querySelectorAll(dropDownMenuSelectors[i]);
 
-        if (projects[projectId] != null) {
-            dropDownMenu[0].innerHTML = text.replace(projectId, projectId + ' (' + projects[projectId] + ')')
+        if (dropDownMenu.length > 0) {
+            let text = dropDownMenu[0].innerHTML;
+            let projectId = text.replace('Project: ', '')
+    
+            if (projects[projectId] != null) {
+                dropDownMenu[0].innerHTML = text.replace(projectId, projectId + ' (' + projects[projectId] + ')')
+            }
         }
     }
 
-    let dropDownMenuItems = document.querySelectorAll('ul.pf-v5-c-menu__list > li.pf-v5-c-menu__list-item > button.pf-v5-c-menu__item > span > span');
+    const dropDownMenuItemSelectors = [
+        'ul.pf-v5-c-menu__list > li.pf-v5-c-menu__list-item > button.pf-v5-c-menu__item > span > span',
+        'ul.pf-c-menu__list > li.pf-c-menu__list-item > button.pf-c-menu__item > span > span'
+    ];
 
-    if (dropDownMenuItems.length > 0) {
+    for (let i = 0; i < dropDownMenuItemSelectors.length; i++) {
+        let dropDownMenuItems = document.querySelectorAll(dropDownMenuItemSelectors[i]);
+
         if (dropDownMenuItems.length > 0) {
             dropDownMenuItems.forEach(item => {
                 let projectId = item.innerHTML;
