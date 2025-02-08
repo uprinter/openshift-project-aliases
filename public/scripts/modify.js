@@ -34,12 +34,11 @@ const updateProject = (projects) => {
 
         if (projects[projectId] != null) {
             dropDownMenu[0].innerHTML = text.replace(projectId, projectId + ' (' + projects[projectId] + ')')
-
         }
     }
 
     let dropDownMenuItems = document.querySelectorAll('ul.pf-v5-c-menu__list > li.pf-v5-c-menu__list-item > button.pf-v5-c-menu__item > span > span');
-    
+
     if (dropDownMenuItems.length > 0) {
         if (dropDownMenuItems.length > 0) {
             dropDownMenuItems.forEach(item => {
