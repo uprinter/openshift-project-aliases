@@ -1,4 +1,3 @@
-# Google Chrome extension to fix OCP4 project display name
-- Adjust content_scripts/matches in manifest.json to your cluster URL
-- Add mapping projectId -> projectName in modify.js
-- See Google manual to install this extension: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked (import "extension" folder)
+# <img src="public/icons/icon48.png" width="48px" height="48px" style="vertical-align: middle"> OpenShift Project Aliases
+
+## Assign human-readable aliases to OpenShift projects.
