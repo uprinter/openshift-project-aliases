@@ -65,9 +65,22 @@ const updateProject = (projects) => {
 
         if (dropDownMenuItems.length > 0) {
             dropDownMenuItems.forEach(item => {
-                let projectId = item.innerHTML;
-                if (projects[projectId] != null) {
-                    item.innerHTML = projectId + ' (' + projects[projectId] + ')';
+                let originalProjectId = item.getAttribute('data-original-project-id');
+
+                if (originalProjectId != null) {
+                    if (projects[originalProjectId] != null) {
+                        item.innerHTML = originalProjectId + ' (' + projects[originalProjectId] + ')';
+                    } else {
+                        item.innerHTML = originalProjectId;
+                        item.removeAttribute('data-original-project-id');
+                    }
+                } else {
+                    let projectId = item.innerHTML;
+
+                    if (projects[projectId] != null) {
+                        item.innerHTML = projectId + ' (' + projects[projectId] + ')';
+                        item.setAttribute('data-original-project-id', projectId);
+                    }
                 }
             });
         }
