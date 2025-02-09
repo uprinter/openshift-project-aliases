@@ -32,11 +32,25 @@ const updateProject = (projects) => {
         let dropDownMenu = document.querySelectorAll(selector);
 
         if (dropDownMenu.length > 0) {
-            let text = dropDownMenu[0].innerHTML;
-            let projectId = text.replace('Project: ', '')
-    
-            if (projects[projectId] != null) {
-                dropDownMenu[0].innerHTML = text.replace(projectId, projectId + ' (' + projects[projectId] + ')')
+            let originalHtml = dropDownMenu[0].getAttribute('data-original-html');
+
+            if (originalHtml != null) {
+                let projectId = originalHtml.replace('Project: ', '');
+
+                if (projects[projectId] != null) {
+                    dropDownMenu[0].innerHTML = originalHtml.replace(projectId, projectId + ' (' + projects[projectId] + ')')
+                } else {
+                    dropDownMenu[0].innerHTML = originalHtml;
+                    dropDownMenu[0].removeAttribute('data-original-html');
+                }
+            } else {
+                let originalHtml = dropDownMenu[0].innerHTML;
+                let projectId = originalHtml.replace('Project: ', '');
+
+                if (projects[projectId] != null) {
+                    dropDownMenu[0].innerHTML = originalHtml.replace(projectId, projectId + ' (' + projects[projectId] + ')')
+                    dropDownMenu[0].setAttribute('data-original-html', originalHtml);
+                }
             }
         }
     });
