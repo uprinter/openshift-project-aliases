@@ -3,7 +3,7 @@ let projects = {};
 chrome.storage.sync.get(['projects'], (result) => {
     projects = {};
     (result.projects || []).forEach(p => {
-        projects[p.id] = p.name;
+        projects[p.id] = p.alias;
     });
 });
 
@@ -11,7 +11,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace === 'sync' && changes.projects) {
         projects = {};
         changes.projects.newValue.forEach(p => {
-            projects[p.id] = p.name;
+            projects[p.id] = p.alias;
         });
 
         updateProject(projects);

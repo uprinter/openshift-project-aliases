@@ -18,12 +18,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import './App.css';
 
 function App() {
-    const [projects, setProjects] = useState<Array<{ id: string; name: string }>>([]);
-    const [editingProject, setEditingProject] = useState<{ id: string; name: string } | null>(null);
-    const [formData, setFormData] = useState({ projectId: '', projectName: '' });
+    const [projects, setProjects] = useState<Array<{ id: string; alias: string }>>([]);
+    const [editingProject, setEditingProject] = useState<{ id: string; alias: string } | null>(null);
+    const [formData, setFormData] = useState({ projectId: '', projectAlias: '' });
     const [alert, setAlert] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-    const saveToStorage = (data: Array<{ id: string; name: string }>) => {
+    const saveToStorage = (data: Array<{ id: string; alias: string }>) => {
         if (typeof chrome !== 'undefined' && chrome.storage) {
             chrome.storage.sync.set({ projects: data });
         } else {
@@ -56,7 +56,7 @@ function App() {
         if (editingProject) {
             const updatedProjects = projects.map(p =>
                 p.id === editingProject.id
-                ? { id: formData.projectId, name: formData.projectName }
+                ? { id: formData.projectId, alias: formData.projectAlias }
                 : p
             );
             
@@ -72,7 +72,7 @@ function App() {
 
             const updatedProjects = [...projects, {
                 id: formData.projectId,
-                name: formData.projectName
+                alias: formData.projectAlias
             }];
             
             setProjects(updatedProjects);
@@ -80,14 +80,14 @@ function App() {
             setAlert({ message: 'Project added successfully', type: 'success' });
         }
 
-        setFormData({ projectId: '', projectName: '' });
+        setFormData({ projectId: '', projectAlias: '' });
     };
 
-    const handleEdit = (project: { id: string; name: string }) => {
+    const handleEdit = (project: { id: string; alias: string }) => {
         setEditingProject(project);
         setFormData({
             projectId: project.id,
-            projectName: project.name
+            projectAlias: project.alias
         });
     };
 
@@ -136,16 +136,16 @@ function App() {
                 <TextField
                     fullWidth
                     margin="normal"
-                    id="projectName"
-                    name="projectName"
-                    label="Project Name"
+                    id="projectAlias"
+                    name="projectAlias"
+                    label="Project Alias"
                     inputProps={{ 
                         maxLength: 20, 
                         pattern: '[a-zA-Z0-9\\- ]+',
                         title: 'Only letters, numbers, spaces and hyphens are allowed' 
                     }}
-                    value={formData.projectName}
-                    onChange={(e) => setFormData(prev => ({ ...prev, projectName: e.target.value }))}
+                    value={formData.projectAlias}
+                    onChange={(e) => setFormData(prev => ({ ...prev, projectAlias: e.target.value }))}
                     required
                     sx={{ mb: 3 }}
                 />
@@ -164,7 +164,7 @@ function App() {
                             color="error"
                             onClick={() => {
                                 setEditingProject(null);
-                                setFormData({ projectId: '', projectName: '' });
+                                setFormData({ projectId: '', projectAlias: '' });
                             }}
                         >
                             Cancel
@@ -184,7 +184,7 @@ function App() {
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{ fontWeight: 'bold' }}>Project ID</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }}>Project Name</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold' }}>Alias</TableCell>
                                 <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
                             </TableRow>
                         </TableHead>
@@ -198,7 +198,7 @@ function App() {
                                     }}
                                 >
                                     <TableCell>{project.id}</TableCell>
-                                    <TableCell>{project.name}</TableCell>
+                                    <TableCell>{project.alias}</TableCell>
                                     <TableCell>
                                         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
                                             <EditIcon
